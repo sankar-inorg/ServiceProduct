@@ -1,0 +1,5 @@
+com/inorg/services/product/config/CTConfig.class
+com/inorg/services/product/ServiceApplication.class
+com/inorg/services/product/service/ProductService.class
+com/inorg/services/product/controller/ProductController.class
+com/inorg/services/product/service/ProductServiceImpl.class
