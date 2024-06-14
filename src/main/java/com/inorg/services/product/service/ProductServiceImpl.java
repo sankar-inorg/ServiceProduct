@@ -31,6 +31,15 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public Product getProductByKey(String productKey) {
+        return apiRoot.products()
+                .withKey(productKey)
+                .get()
+                .executeBlocking()
+                .getBody();
+    }
+
+    @Override
     public ProductProjection getProductProjectionById(String productId) {
         return apiRoot.productProjections()
                 .withId(productId)
