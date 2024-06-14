@@ -3,6 +3,7 @@ package com.inorg.services.product.service;
 import com.commercetools.api.client.ProjectApiRoot;
 import com.commercetools.api.models.product.Product;
 import com.commercetools.api.models.product.ProductProjection;
+import com.commercetools.api.models.product.ProductProjectionPagedQueryResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,5 +47,17 @@ public class ProductServiceImpl implements ProductService {
                 .get()
                 .executeBlocking()
                 .getBody();
+    }
+
+    @Override
+    public ProductProjectionPagedQueryResponse getProductProjectionByQuery() {
+    return apiRoot
+        .productProjections()
+        .get()
+        .withWhere("masterVariant(attributes(name=\"colorlabel\" and value(en-GB=\"Steel Gray\")))")
+        .withPriceCurrency("GBP")
+            .withPriceCountry("GB")
+        .executeBlocking()
+        .getBody();
     }
 }

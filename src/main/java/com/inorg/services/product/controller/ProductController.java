@@ -2,6 +2,7 @@ package com.inorg.services.product.controller;
 
 import com.commercetools.api.models.product.Product;
 import com.commercetools.api.models.product.ProductProjection;
+import com.commercetools.api.models.product.ProductProjectionPagedQueryResponse;
 import com.inorg.services.product.service.ProductService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,6 +43,12 @@ public class ProductController {
     public ProductProjection getProductProjectionById(@PathVariable String productId) {
         LOG.info("Get Product Projection  for Product : {}", productId);
         return productService.getProductProjectionById(productId);
+    }
+
+    @GetMapping(value = "/projection-query", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ProductProjectionPagedQueryResponse getProductProjectionById() {
+        LOG.info("Get Product Projection  Query");
+        return productService.getProductProjectionByQuery();
     }
 
     //TODO Add more endpoints to fetch product details
