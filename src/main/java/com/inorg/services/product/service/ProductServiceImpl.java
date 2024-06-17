@@ -20,6 +20,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 @Service
 @Slf4j
@@ -206,6 +207,96 @@ public class ProductServiceImpl implements ProductService {
                 .executeBlocking().getBody();
     }
 
+    @Override
+    public ProductProjectionPagedQueryResponse getProductBySKU(String sku) {
+        return apiRoot.productProjections()
+                .get()
+                .addWhere("masterVariant(sku=\""+sku+"\") or variants(sku=\""+sku+"\")")
+                .executeBlocking()
+                .getBody();
+    }
+
+    @Override
+    public Product updateProductPriceWithSKU(String sku, String price) {
+
+        Product productToBeUpdate = null;
+        ProductProjectionPagedQueryResponse product = null;
+        product =  getProductBySKU(sku);
+        if(product.getResults().isEmpty()){
+            System.out.println("No Product found ");
+        } else {
+            System.out.println("Product found");
+            AtomicReference<String> priceId = new AtomicReference<>();
+            if(product.getResults().get(0).getMasterVariant().getSku().equals(sku)) {
+                List<Price> masterVariantPrices = product.getResults().get(0).getMasterVariant().getPrices();
+                masterVariantPrices.forEach(prices -> {
+                    if (prices.getValue().getCurrencyCode().equals("USD")) {
+                        priceId.set(prices.getId());
+                        System.out.println("Product found with USD price and a master variant");
+                    }
+                });
+            }
+            if(priceId.get() == null){
+                List<ProductVariant> variants = product.getResults().get(0).getVariants();
+                variants.forEach(variant -> {
+                    if(variant.getSku().equals(sku)) {
+                        variant.getPrices().forEach(prices -> {
+                            if (prices.getValue().getCurrencyCode().equals("USD")){
+                                priceId.set(prices.getId());
+                                System.out.println("Product found with USD price and a variant not master");
+                            }
+                        });
+                    }
+
+                });
+            }
+            if(priceId.get() == null){
+                System.out.println("Product found but no price with usd found");
+            } else {
+                List<ProductUpdateAction> updateActions = new ArrayList<>();
+                ProductUpdateAction setPriceOfProduct = ProductChangePriceActionBuilder.of()
+                        .priceId(priceId.get())
+                        .price(PriceDraftBuilder.of()
+                                .value(MoneyBuilder.of().currencyCode("USD")
+                                        .centAmount(Long.parseLong(price)).build()).build()).build();
+
+                updateActions.add(setPriceOfProduct);
+
+                ProductUpdate productUpdate = ProductUpdate.builder()
+                        .version(product.getResults().get(0).getVersion())
+                        .actions(updateActions)
+                        .build();
+                productToBeUpdate =   apiRoot.products()
+                        .withId(product.getResults().get(0).getId())
+                        .post(productUpdate)
+                        .executeBlocking()
+                        .getBody();
+
+
+            }
+        }
+
+        return productToBeUpdate;
+    }
+
+    @Override
+    public List<Product> updateProductPriceBySKUUsingCSV() {
+        List<Product> listOfProduct = new ArrayList<>();
+        List<PriceData> priceDataList = new ArrayList<>();
+        try{
+            priceDataList = readPriceDataFromCSV();
+        }catch (Exception e){
+            LOG.error("Error reading product data", e);
+        }
+
+        priceDataList.forEach(priceData -> {
+            Product updateTheProduct = updateProductPriceWithSKU(priceData.getSku(),priceData.getPrice());
+            listOfProduct.add(updateTheProduct);
+        });
+
+        return listOfProduct;
+    }
+
 //    @Override
 //    public List<Product> updateProductPrices() {
 //        List<Product> products = new ArrayList<>();
@@ -221,6 +312,7 @@ public class ProductServiceImpl implements ProductService {
 //
 //        return productPricesList;
 //    }
+
 
 
     private List<ProductData> readProductData() throws IOException, CsvValidationException {
@@ -254,5 +346,25 @@ public class ProductServiceImpl implements ProductService {
         }
 
         return productDataList;
+    }
+
+    private List<PriceData> readPriceDataFromCSV() throws IOException, CsvValidationException {
+        CSVReader reader = new CSVReader(new InputStreamReader(this.getClass()
+                .getClassLoader()
+                .getResourceAsStream("priceData.csv")));
+        List<PriceData> priceDataList = new ArrayList<>();
+
+        // read line by line
+        String[] record = null;
+        reader.skip(1);//header
+        while ((record = reader.readNext()) != null) {
+            PriceData productData = PriceData.builder()
+                    .sku(record[0])
+                    .price(record[1])
+                    .build();
+            priceDataList.add(productData);
+        }
+
+        return priceDataList;
     }
 }

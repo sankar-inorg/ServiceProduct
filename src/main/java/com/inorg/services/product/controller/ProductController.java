@@ -65,6 +65,21 @@ public class ProductController {
         LOG.info("get Product by search text");
         return productService.searchProducts(searchText);
     }
+    @GetMapping(value = "/getProductBySKU/{sku}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ProductProjectionPagedQueryResponse getProductBySKU(@PathVariable String sku) {
+        LOG.info("Get Product Projection Query using sku : {}", sku);
+        return productService.getProductBySKU(sku);
+    }
+    @PostMapping(value = "/updateProductPriceBySKU/{sku}/{price}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Product updateProductPriceBySKU(@PathVariable String sku, @PathVariable String price) {
+        LOG.info("Get Product Projection Query using sku : {}", sku);
+        return productService.updateProductPriceWithSKU(sku,price);
+    }
+    @PostMapping(value = "/updateProductPriceBySKUUsingCSV", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Product> updateProductPriceBySKUUsingCSV() {
+        LOG.info("Get Product Projection Query using sku :  using CSV{}");
+        return productService.updateProductPriceBySKUUsingCSV();
+    }
 
     //TODO Add more endpoints to fetch product details
 }
