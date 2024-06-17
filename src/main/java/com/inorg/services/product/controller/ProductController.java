@@ -1,8 +1,6 @@
 package com.inorg.services.product.controller;
 
-import com.commercetools.api.models.product.Product;
-import com.commercetools.api.models.product.ProductProjection;
-import com.commercetools.api.models.product.ProductProjectionPagedQueryResponse;
+import com.commercetools.api.models.product.*;
 import com.inorg.services.product.service.ProductService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,7 +43,7 @@ public class ProductController {
     }
 
     @GetMapping(value = "/projection-query", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ProductProjectionPagedQueryResponse getProductProjectionById() {
+    public ProductProjectionPagedQueryResponse getProductProjectionQuery() {
         LOG.info("Get Product Projection  Query");
         return productService.getProductProjectionByQuery();
     }
@@ -54,6 +52,18 @@ public class ProductController {
     public List<Product> createProducts() {
         LOG.info("Create product or Update product");
         return productService.createProducts();
+    }
+
+    @GetMapping(value = "/getProductsByCategory/{categoryId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ProductPagedQueryResponse getProductsByCategory(@PathVariable String categoryId) {
+        LOG.info("Get Product by Category");
+        return productService.getProductsByCategory(categoryId);
+    }
+
+    @GetMapping(value = "/searchProducts/{searchText}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ProductProjectionPagedSearchResponse searchProducts(@PathVariable String searchText) {
+        LOG.info("get Product by search text");
+        return productService.searchProducts(searchText);
     }
 
     //TODO Add more endpoints to fetch product details

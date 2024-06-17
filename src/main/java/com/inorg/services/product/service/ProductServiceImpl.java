@@ -5,6 +5,7 @@ import com.commercetools.api.models.category.CategoryResourceIdentifierBuilder;
 import com.commercetools.api.models.common.*;
 import com.commercetools.api.models.product.*;
 import com.commercetools.api.models.product_type.ProductTypeResourceIdentifierBuilder;
+import com.inorg.services.product.models.PriceData;
 import com.inorg.services.product.models.ProductData;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
@@ -186,19 +187,40 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductPagedQueryResponse getProductsByCategory(String categoryId) {
-        return null;
-        // apiRoot.products().get()
+       // return null;
+        return  apiRoot.products().get()
+                .addWhere("masterData(current(categories(id = \""+categoryId+"\")))")
                 //TODO withWhere
-                //.executeBlocking().getBody();
+                .executeBlocking().getBody();
     }
 
     @Override
     public ProductProjectionPagedSearchResponse searchProducts(String searchText) {
-        return null;
-       //  apiRoot.productProjections().search()
-                //TODO withText, withFacet
-                //.executeBlocking().getBody();
+        //return null;
+        //TODO withText withFacet
+         return apiRoot.productProjections().search()
+                 .get()
+                 .withText("EN-US", searchText)
+                 .withFacet("variants.attributes.Color:\""+searchText+"\"")
+                 .withFacet("variants.attributes.Size:\""+searchText+"\"")
+                .executeBlocking().getBody();
     }
+
+//    @Override
+//    public List<Product> updateProductPrices() {
+//        List<Product> products = new ArrayList<>();
+//        return products;
+//    }
+//
+//    private List<PriceData> readPriceData() throws IOException,CsvValidationException{
+//        CSVReader reader = new CSVReader(new InputStreamReader(this.getClass()
+//                .getClassLoader()
+//                .getResourceAsStream("pricedata.csv")));
+//
+//        List<PriceData> productPricesList = new ArrayList<>();
+//
+//        return productPricesList;
+//    }
 
 
     private List<ProductData> readProductData() throws IOException, CsvValidationException {

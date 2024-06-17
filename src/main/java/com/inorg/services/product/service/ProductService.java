@@ -20,4 +20,6 @@ public interface ProductService {
     ProductPagedQueryResponse getProductsByCategory(String categoryId);
 
     ProductProjectionPagedSearchResponse searchProducts(String searchText);
+
+//    List<Product> updateProductPrices();
 }
