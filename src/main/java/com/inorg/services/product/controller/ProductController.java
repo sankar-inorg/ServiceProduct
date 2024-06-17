@@ -8,10 +8,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
@@ -49,6 +48,12 @@ public class ProductController {
     public ProductProjectionPagedQueryResponse getProductProjectionById() {
         LOG.info("Get Product Projection  Query");
         return productService.getProductProjectionByQuery();
+    }
+
+    @PostMapping(value = "/createProducts", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Product> createProducts() {
+        LOG.info("Create product or Update product");
+        return productService.createProducts();
     }
 
     //TODO Add more endpoints to fetch product details

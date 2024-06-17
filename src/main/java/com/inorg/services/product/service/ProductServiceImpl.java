@@ -1,14 +1,10 @@
 package com.inorg.services.product.service;
 
 import com.commercetools.api.client.ProjectApiRoot;
-import com.commercetools.api.models.product.Product;
-import com.commercetools.api.models.product.ProductDraft;
-import com.commercetools.api.models.product.ProductPagedQueryResponse;
-import com.commercetools.api.models.product.ProductProjection;
-import com.commercetools.api.models.product.ProductProjectionPagedQueryResponse;
-import com.commercetools.api.models.product.ProductProjectionPagedSearchResponse;
-import com.commercetools.api.models.product.ProductUpdate;
-import com.commercetools.api.models.product.ProductUpdateAction;
+import com.commercetools.api.models.category.CategoryResourceIdentifierBuilder;
+import com.commercetools.api.models.common.*;
+import com.commercetools.api.models.product.*;
+import com.commercetools.api.models.product_type.ProductTypeResourceIdentifierBuilder;
 import com.inorg.services.product.models.ProductData;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
@@ -21,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -102,6 +99,12 @@ public class ProductServiceImpl implements ProductService {
                     List<ProductUpdateAction> updateActions = new ArrayList<>();
                     //TODO Create List of Update Actions
 
+                    ProductUpdateAction setDescription = ProductSetDescriptionActionBuilder.of()
+                            .description(LocalizedStringBuilder.of().addValue("en-US", productData.getDescription()).build())
+                            .build();
+
+                    updateActions.add(setDescription);
+
                     ProductUpdate productUpdate = ProductUpdate.builder()
                             .version(product.getVersion())
                             .actions(updateActions)
@@ -113,9 +116,61 @@ public class ProductServiceImpl implements ProductService {
                             .getBody();
                     products.add(product);
                 } else {
+                    List<Attribute> varinatAttributes = new ArrayList<>();
+
+                    Attribute sizeAttribute = Attribute.builder()
+                            .name("size")
+                            .value(productData.getSize())
+                            .build();
+                    varinatAttributes.add(sizeAttribute);
+                    Attribute colorAttribute = Attribute.builder()
+                            .name("color")
+                            .value(productData.getColor())
+                            .build();
+                    varinatAttributes.add(colorAttribute);
+//                    Attribute brandAttribute = Attribute.builder()
+//                            .name("brand")
+//                            .value(productData.getBrand())
+//                            .build();
+//                    varinatAttributes.add(brandAttribute);
+
+                    ProductVariantDraft masterVariant = ProductVariantDraft.builder()
+                            .sku(productData.getSku())
+                            .key(productData.getVariantId())
+                            .prices(PriceDraftBuilder.of()
+                                    .value(MoneyBuilder.of()
+                                            .currencyCode("USD")
+                                            .centAmount(new Long(productData.getPrice()))
+                                            .build())
+                                    .build())
+                            .attributes(varinatAttributes)
+                            .images(Arrays.asList(ImageBuilder.of()
+                                    .url(productData.getImages().get(0))
+                                            .dimensions(ImageDimensionsBuilder.of().w(100).h(100).build())
+                                    .build()))
+                            .build();
+
                     //Create Product
                     ProductDraft productDraft = ProductDraft.builder()
-                            //TODO set product data
+                            .productType(ProductTypeResourceIdentifierBuilder.of()
+                                    .key(productData.getProductType())
+                                    .build()
+                            )
+                            .key(productData.getKey())
+                            .categories(CategoryResourceIdentifierBuilder.of()
+                                    .key(productData.getCategories().get(0))
+                                    .build()
+                            )
+                            .name(LocalizedStringBuilder.of()
+                                    .addValue("EN-US", productData.getName())
+                                    .build())
+                            .slug(LocalizedStringBuilder.of()
+                                    .addValue("EN-US", productData.getSlug())
+                                    .build())
+                            .masterVariant(masterVariant)
+                            .description(LocalizedStringBuilder.of()
+                                    .addValue("EN-US", productData.getDescription())
+                                    .build())
                             .build();
                     product = apiRoot.products()
                             .post(productDraft)
@@ -157,7 +212,21 @@ public class ProductServiceImpl implements ProductService {
         reader.skip(1);//header
         while ((record = reader.readNext()) != null) {
             ProductData productData = ProductData.builder()
-                    //TODO set product data
+                    .productType(record[0])
+                    .key(record[1])
+                    .variantId(record[2])
+                    .sku(record[3])
+                    .price(record[4])
+                    .tax(record[5])
+                    .categories(Arrays.asList(record[6].split(",")))
+                    .images(Arrays.asList(record[7].split(",")))
+                    .name(record[8])
+                    .description(record[9])
+                    .slug(record[10])
+                    .size(Integer.parseInt(record[11]))
+                    .color(record[12])
+                    .details(record[13])
+                    .style(record[14])
                     .build();
             productDataList.add(productData);
         }

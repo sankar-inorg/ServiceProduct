@@ -20,7 +20,7 @@ public class ProductData {
     private String name;
     private String description;
     private String slug;
-    private String size;
+    private Integer size;
     private String color;
     private String details;
     private String style;
