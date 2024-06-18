@@ -1,0 +1,23 @@
+
+c
+java:S1192{"FDefine a constant instead of duplicating this literal "EN-US" 4 times.(ûÒîâ8¸Ò½×‚2
+T
+java:S1135w"2Complete the task associated to this TODO comment.(Úòïüÿÿÿÿ8ÑÒ½×‚2
+f
+java:S5738¨"HRemove this call to a deprecated method, it has been marked for removal.(¹æˆë8ÕÒ½×‚2
+X	java:S125Ü"<This block of commented-out lines of code should be removed.(è¤‹8ØÒ½×‚2
+P
+java:S1135Û"2Complete the task associated to this TODO comment.(€Õ ³8ØÒ½×‚2
+X	java:S125ä"<This block of commented-out lines of code should be removed.(è¤‹8ØÒ½×‚2
+P
+java:S1135ã"2Complete the task associated to this TODO comment.(±Ü·Ç8ØÒ½×‚2
+]
+java:S6213ï":Rename this variable to not match a restricted identifier.(Œ°ºùùÿÿÿÿ8ÚÒ½×‚2
+z
+java:S1128"]Remove this unused import 'com.commercetools.api.models.category.CategoryResourceIdentifier'.(½Âóã8ÜÒ½×‚2
+m
+java:S1128"PRemove this unused import 'com.commercetools.api.models.common.ImageDimensions'.(±Ò‘ 8ÜÒ½×‚2
+
+java:S1128"]Remove this unused import 'com.commercetools.api.models.product.ProductSetDescriptionAction'.(¨¢å½úÿÿÿÿ8ÜÒ½×‚2
+†
+java:S1128"dRemove this unused import 'com.commercetools.api.models.product_type.ProductTypeResourceIdentifier'.(ğĞÅñùÿÿÿÿ8ÜÒ½×‚2
