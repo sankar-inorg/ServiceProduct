@@ -8,7 +8,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-
 @Configuration
 @ConfigurationProperties("app.commercetools")
 @Data
@@ -24,7 +23,7 @@ public class CTConfig {
                                 .withClientId(clientId)
                                 .withClientSecret(clientSecret)
                                 .build(),
-                        ServiceRegion.GCP_EUROPE_WEST1)
+                        ServiceRegion.AWS_US_EAST_2)
                 .build(projectKey);
     }
 }

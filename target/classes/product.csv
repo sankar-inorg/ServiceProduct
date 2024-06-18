@@ -1,0 +1,6 @@
+productType,key,variantId,sku,price,tax,categories,images,name,description,slug,size,color,details,style,gender
+shirt,prd-1,2,shirt-2,16803,USD 1680.3,shirt,https://s3-eu-west-1.amazonaws.com/commercetools-maximilian/products/080610_1_large.jpg,"Shirt 2","Shirt 2 description","shirt-2",10,"Blue","Shirt 2 details","Shirt 2 style",female
+shirt,prd-1,3,shirt-3,16803,USD 1680.3,shirt,https://s3-eu-west-1.amazonaws.com/commercetools-maximilian/products/080610_1_large.jpg,"Shirt 3","Shirt 3 description","shirt-3",15,"Green","Shirt 3 details","Shirt 3 style",male
+shirt,prd-1,4,shirt-4,16803,USD 1680.3,shirt,https://s3-eu-west-1.amazonaws.com/commercetools-maximilian/products/080610_1_large.jpg,"Shirt 4","Shirt 4 description","shirt-4",20,"Yellow","Shirt 4 details","Shirt 4 style",male
+shirt,prd-1,5,shirt-5,16803,USD 1680.3,shirt,https://s3-eu-west-1.amazonaws.com/commercetools-maximilian/products/080610_1_large.jpg,"Shirt 5","Shirt 5 description","shirt-5",25,"Black","Shirt 5 details","Shirt 5 style",female
+shirt,prd-1,6,shirt-6,16803,USD 1680.3,shirt,https://s3-eu-west-1.amazonaws.com/commercetools-maximilian/products/080610_1_large.jpg,"Shirt 6","Shirt 6 description","shirt-6",30,"White","Shirt 6 details","Shirt 6 style",female
