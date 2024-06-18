@@ -1,0 +1,14 @@
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    disable-swagger-default-url: true
+    url: /v3/api-docs
+
+app:
+  commercetools:
+    projectKey: training_anirudh
+    clientId: cUgEt8X3Hc0wj21TbXCn9cYh
+    clientSecret: EJcbAyhSLOnHo0bjjQXs8HGoz1BIX0Lb
+
+server:
+  port: 8080
