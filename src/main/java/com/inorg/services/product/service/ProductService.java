@@ -20,4 +20,12 @@ public interface ProductService {
     ProductPagedQueryResponse getProductsByCategory(String categoryId);
 
     ProductProjectionPagedSearchResponse searchProducts(String searchText);
+
+    ProductProjectionPagedQueryResponse getProductBySKU(String sku);
+
+    Product updateProductPriceWithSKU(String sku, String Price);
+
+    List<Product> updateProductPriceBySKUUsingCSV();
+
+//    List<Product> updateProductPrices();
 }

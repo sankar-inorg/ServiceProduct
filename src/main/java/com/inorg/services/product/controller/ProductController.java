@@ -1,18 +1,12 @@
 package com.inorg.services.product.controller;
 
-import com.commercetools.api.models.product.Product;
-import com.commercetools.api.models.product.ProductProjection;
-import com.commercetools.api.models.product.ProductProjectionPagedQueryResponse;
+import com.commercetools.api.models.product.*;
 import com.inorg.services.product.service.ProductService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -49,15 +43,42 @@ public class ProductController {
     }
 
     @GetMapping(value = "/projection-query", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ProductProjectionPagedQueryResponse getProductProjectionById() {
+    public ProductProjectionPagedQueryResponse getProductProjectionQuery() {
         LOG.info("Get Product Projection  Query");
         return productService.getProductProjectionByQuery();
     }
 
-    @PostMapping(value = "/create", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/createProducts", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Product> createProducts() {
-        LOG.info("Create Product");
+        LOG.info("Create product or Update product");
         return productService.createProducts();
+    }
+
+    @GetMapping(value = "/getProductsByCategory/{categoryId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ProductPagedQueryResponse getProductsByCategory(@PathVariable String categoryId) {
+        LOG.info("Get Product by Category");
+        return productService.getProductsByCategory(categoryId);
+    }
+
+    @GetMapping(value = "/searchProducts/{searchText}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ProductProjectionPagedSearchResponse searchProducts(@PathVariable String searchText) {
+        LOG.info("get Product by search text");
+        return productService.searchProducts(searchText);
+    }
+    @GetMapping(value = "/getProductBySKU/{sku}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ProductProjectionPagedQueryResponse getProductBySKU(@PathVariable String sku) {
+        LOG.info("Get Product Projection Query using sku : {}", sku);
+        return productService.getProductBySKU(sku);
+    }
+    @PostMapping(value = "/updateProductPriceBySKU/{sku}/{price}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Product updateProductPriceBySKU(@PathVariable String sku, @PathVariable String price) {
+        LOG.info("Get Product Projection Query using sku : {}", sku);
+        return productService.updateProductPriceWithSKU(sku,price);
+    }
+    @PostMapping(value = "/updateProductPriceBySKUUsingCSV", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Product> updateProductPriceBySKUUsingCSV() {
+        LOG.info("Get Product Projection Query using sku :  using CSV{}");
+        return productService.updateProductPriceBySKUUsingCSV();
     }
 
     //TODO Add more endpoints to fetch product details

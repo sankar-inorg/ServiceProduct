@@ -24,6 +24,6 @@ public class ProductData {
     private String color;
     private String details;
     private String style;
-    private String brand;
+    private String gender;
 
 }
