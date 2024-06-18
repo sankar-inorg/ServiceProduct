@@ -43,36 +43,36 @@ public class ProductController {
     }
 
     @GetMapping(value = "/projection-query", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ProductProjectionPagedQueryResponse getProductProjectionQuery() {
+    public ProductProjectionPagedQueryResponse getProductProjectionQuery(@RequestParam String color) {
         LOG.info("Get Product Projection  Query");
-        return productService.getProductProjectionByQuery();
+        return productService.getProductProjectionByQuery(color);
     }
 
-    @PostMapping(value = "/createProducts", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/create", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Product> createProducts() {
         LOG.info("Create product or Update product");
         return productService.createProducts();
     }
 
-    @GetMapping(value = "/getProductsByCategory/{categoryId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/getProducts/by-category/{categoryId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ProductPagedQueryResponse getProductsByCategory(@PathVariable String categoryId) {
         LOG.info("Get Product by Category");
         return productService.getProductsByCategory(categoryId);
     }
 
-    @GetMapping(value = "/searchProducts/{searchText}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ProductProjectionPagedSearchResponse searchProducts(@PathVariable String searchText) {
+    @GetMapping(value = "/search", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ProductProjectionPagedSearchResponse searchProducts(@RequestParam String searchText) {
         LOG.info("get Product by search text");
         return productService.searchProducts(searchText);
     }
-    @GetMapping(value = "/getProductBySKU/{sku}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/getProduct/by-sku/{sku}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ProductProjectionPagedQueryResponse getProductBySKU(@PathVariable String sku) {
-        LOG.info("Get Product Projection Query using sku : {}", sku);
+        LOG.info("Get Product Projection Query using sku vd : {}", sku);
         return productService.getProductBySKU(sku);
     }
-    @PostMapping(value = "/updateProductPriceBySKU/{sku}/{price}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/updateProductPrice/sku/{sku}/{price}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Product updateProductPriceBySKU(@PathVariable String sku, @PathVariable String price) {
-        LOG.info("Get Product Projection Query using sku : {}", sku);
+        LOG.info("Get Product Projection Query using sku price : {}", sku);
         return productService.updateProductPriceWithSKU(sku,price);
     }
     @PostMapping(value = "/updateProductPriceBySKUUsingCSV", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -81,5 +81,4 @@ public class ProductController {
         return productService.updateProductPriceBySKUUsingCSV();
     }
 
-    //TODO Add more endpoints to fetch product details
 }

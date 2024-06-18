@@ -13,7 +13,7 @@ public interface ProductService {
     public Product getProductByKey(String productKey);
     ProductProjection getProductProjectionById(String productId);
 
-    ProductProjectionPagedQueryResponse getProductProjectionByQuery();
+    ProductProjectionPagedQueryResponse getProductProjectionByQuery(String color);
 
     List<Product> createProducts();
 

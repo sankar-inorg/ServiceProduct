@@ -63,11 +63,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductProjectionPagedQueryResponse getProductProjectionByQuery() {
+    public ProductProjectionPagedQueryResponse getProductProjectionByQuery(String color) {
     return apiRoot
         .productProjections()
         .get()
-        .withWhere("masterVariant(attributes(name=\"colorlabel\" and value(en-GB=\"Steel Gray\")))")
+        .withWhere("masterVariant(attributes(name=\"colorlabel\" and value(en-GB=\""+color+"\")))")
         .withPriceCurrency("GBP")
             .withPriceCountry("GB")
         .executeBlocking()
@@ -99,7 +99,6 @@ public class ProductServiceImpl implements ProductService {
                 if(product != null){
                     //Update Product
                     List<ProductUpdateAction> updateActions = new ArrayList<>();
-                    //TODO Create List of Update Actions
 
                     ProductUpdateAction setDescription = ProductSetDescriptionActionBuilder.of()
                             .description(LocalizedStringBuilder.of().addValue("en-US", productData.getDescription()).build())
@@ -191,14 +190,12 @@ public class ProductServiceImpl implements ProductService {
        // return null;
         return  apiRoot.products().get()
                 .addWhere("masterData(current(categories(id = \""+categoryId+"\")))")
-                //TODO withWhere
                 .executeBlocking().getBody();
     }
 
     @Override
     public ProductProjectionPagedSearchResponse searchProducts(String searchText) {
         //return null;
-        //TODO withText withFacet
          return apiRoot.productProjections().search()
                  .get()
                  .withText("EN-US", searchText)
