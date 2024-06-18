@@ -1,0 +1,14 @@
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    disable-swagger-default-url: true
+    url: /v3/api-docs
+
+app:
+  commercetools:
+    projectKey: training_suraj_modi
+    clientId: FKmUDyW7-mmaF4UitOIsatZ2
+    clientSecret: ZPTzqi1D8-Z1Y496s_zmJ2wT9wtsoi25
+
+server:
+  port: 8080
