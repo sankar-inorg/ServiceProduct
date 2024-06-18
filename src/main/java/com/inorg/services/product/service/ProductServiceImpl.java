@@ -199,8 +199,8 @@ public class ProductServiceImpl implements ProductService {
          return apiRoot.productProjections().search()
                  .get()
                  .withText("EN-US", searchText)
-                 .withFacet("variants.attributes.Color:\""+searchText+"\"")
-                 .withFacet("variants.attributes.Size:\""+searchText+"\"")
+                 .withFacet("variants.attributes.Color")
+                 .withFacet("variants.attributes.Size")
                 .executeBlocking().getBody();
     }
 
