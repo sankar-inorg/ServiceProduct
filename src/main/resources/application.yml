@@ -6,9 +6,9 @@ springdoc:
 
 app:
   commercetools:
-    projectKey: mytestproj1
-    clientId: q5ZHDKyHSccjZ65oc7l1UXuv
-    clientSecret: KIlNyd7cQ70GJu83GKRm3ld6m3yQtZxX
+    projectKey: training_abhinav_arora
+    clientId: siO0ADTcOzaMD3CW9rBXIZ4L
+    clientSecret: cNlRPAESeh4zpqk_2DpXkvxkOulhCM45
 
 server:
   port: 8080
