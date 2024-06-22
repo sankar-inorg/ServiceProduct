@@ -38,6 +38,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @Slf4j
@@ -120,7 +121,7 @@ public class ProductServiceImpl implements ProductService {
                     updateActions.add(
                             ProductSetDescriptionActionBuilder.of()
                                     .description(LocalizedStringBuilder.of()
-                                            .addValue("EN-US", productData.getDescription())
+                                            .addValue("de-DE", productData.getDescription())
                                             .build())
                                     .build()
                     );
@@ -214,25 +215,25 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductPagedQueryResponse getProductsByCategory(String categoryId) {
-        return null;
-        // apiRoot.products().get()
-                //TODO withWhere
-                //.executeBlocking().getBody();
+        return apiRoot.products().get()
+                .executeBlocking().getBody();
     }
 
     @Override
     public ProductProjectionPagedSearchResponse searchProducts(String searchText) {
-        return null;
-       //  apiRoot.productProjections().search()
-                //TODO withText, withFacet
-                //.executeBlocking().getBody();
+        return apiRoot.productProjections().search().get()
+                .withText("en",searchText)
+                .withFacet("variants.attributes.color:\""+searchText+"\"")
+                .withFacet("variants.attributes.Size:\"" + searchText + "\"")
+                .executeBlocking().getBody();
     }
 
 
     private List<ProductData> readProductData() throws IOException, CsvValidationException {
-        CSVReader reader = new CSVReader(new InputStreamReader(this.getClass()
-            .getClassLoader()
-            .getResourceAsStream("product.csv")));
+        CSVReader reader = new CSVReader(new InputStreamReader(Objects.requireNonNull(this
+                .getClass()
+                .getClassLoader()
+                .getResourceAsStream("product.csv"))));
         List<ProductData> productDataList = new ArrayList<>();
 
         // read line by line
@@ -245,7 +246,7 @@ public class ProductServiceImpl implements ProductService {
                   .key(record[1])
                   .variantId(record[2])
                   .sku(record[3])
-                  .price(record[4])
+                  .price(Long.valueOf(record[4]))
                   .tax(record[5])
                   .categories(Arrays.asList(record[6].split(",")))
                   .images(Arrays.asList(record[7].split(",")))

@@ -25,8 +25,9 @@ public class ProductController {
 
     private static final Logger LOG = LoggerFactory.getLogger(ProductController.class);
     private final ProductService productService;
-
+    //Dependency Injection
     public ProductController(ProductService productService) {
+
         this.productService = productService;
     }
 
@@ -36,7 +37,7 @@ public class ProductController {
         return productService.getProductById(productId);
     }
 
-    @GetMapping(value = "/details-by-key/{productKey}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/details/key/{productKey}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Product getProductByKey(@PathVariable String productKey) {
         LOG.info("Get Product Details  for Product Key : {}", productKey);
         return productService.getProductByKey(productKey);
