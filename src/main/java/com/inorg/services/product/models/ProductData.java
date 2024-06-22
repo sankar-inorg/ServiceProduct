@@ -13,7 +13,7 @@ public class ProductData {
     private String key;
     private String variantId;
     private String sku;
-    private String price;
+    private Long price;
     private String tax;
     private List<String> categories;
     private List<String> images;
@@ -25,5 +25,6 @@ public class ProductData {
     private String details;
     private String style;
     private String brand;
+    private String gender;
 
 }

@@ -5,7 +5,4 @@
       <excludeFolder url="file://$MODULE_DIR$/.idea/copilot/chatSessions" />
     </content>
   </component>
-  <component name="SonarLintModuleSettings">
-    <option name="uniqueId" value="ccf11654-a7ac-408d-a473-a6cfa274b749" />
-  </component>
 </module>
