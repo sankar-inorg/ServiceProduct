@@ -63,8 +63,8 @@ public class ProductServiceImpl implements ProductService {
         return apiRoot
                 .productProjections()
                 .get()
-                .withWhere("masterVariant(attributes(name=\"colorlabel\" and value(en-GB=\"Steel Gray\")))")
-                .withPriceCurrency("RUP")
+                .withWhere("masterVariant(sku=\"Black-40\")")
+                .withPriceCurrency("INR")
                 .withPriceCountry("IN")
                 .executeBlocking()
                 .getBody();

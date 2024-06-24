@@ -8,7 +8,6 @@ import java.util.List;
 @Data
 @Builder
 public class ProductData {
-
     private String productType;
     private String key;
     private String variantId;
@@ -25,5 +24,4 @@ public class ProductData {
     private String details;
     private String style;
     private String gender;
-
 }
