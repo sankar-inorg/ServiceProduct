@@ -170,8 +170,9 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductPagedQueryResponse getProductsByCategory(String categoryId) {
         return apiRoot.products().get()
-                .addWhere("masterData(current(categories(id = \"" + categoryId + "\")))")
-                .executeBlocking().getBody();
+                .addWhere("masterData(current(categories(id = \"categoryId\")))")
+                .executeBlocking()
+                .getBody();
     }
 
     @Override
