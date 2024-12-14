@@ -13,11 +13,19 @@ public interface ProductService {
     public Product getProductByKey(String productKey);
     ProductProjection getProductProjectionById(String productId);
 
-    ProductProjectionPagedQueryResponse getProductProjectionByQuery();
+    ProductProjectionPagedQueryResponse getProductProjectionByQuery(String color);
 
     List<Product> createProducts();
 
     ProductPagedQueryResponse getProductsByCategory(String categoryId);
 
     ProductProjectionPagedSearchResponse searchProducts(String searchText);
+
+    ProductProjectionPagedQueryResponse getProductBySKU(String sku);
+
+    Product updateProductPriceWithSKU(String sku, String Price);
+
+    List<Product> updateProductPriceBySKUUsingCSV();
+
+//    List<Product> updateProductPrices();
 }
